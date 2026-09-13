@@ -2,14 +2,14 @@ name: PR Check — drug-catalog
 
 on:
   push:
-    branches: ['feat-*', 'fix-*', 'chore-*']
+    branches: ["feat-*", "fix-*", "chore-*"]
     paths:
-      - 'drug-catalog-service/**'
-      - '.github/workflows/ci-pr-drug-catalog.yml'
+      - "drug-catalog-service/**"
+      - ".github/workflows/ci-pr-drug-catalog.yml"
   pull_request:
     branches: [develop]
     paths:
-      - 'drug-catalog-service/**'
+      - "drug-catalog-service/**"
 
 permissions:
   contents: read

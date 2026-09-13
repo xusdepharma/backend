@@ -6,16 +6,16 @@ name: CI/CD — notification-service
 
 on:
   push:
-    branches: [develop, 'release/**']
+    branches: [develop, "release/**"]
     paths:
-      - 'notification-service/**'
-      - '.github/workflows/ci-notification.yml'
+      - "notification-service/**"
+      - ".github/workflows/ci-notification.yml"
   workflow_dispatch:
     inputs:
       ref:
-        description: 'Branch to build'
+        description: "Branch to build"
         required: false
-        default: 'develop'
+        default: "develop"
 
 permissions:
   id-token: write
@@ -24,12 +24,11 @@ permissions:
   actions: read
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: us-west-2
   ECR_REPOSITORY: notification-service
   GITOPS_REPO: ${{ vars.GITOPS_REPO }}
 
 jobs:
-
   build:
     name: "Build & Security Gates (notification)"
     uses: ./.github/workflows/_node-build.yml
@@ -37,8 +36,8 @@ jobs:
       service-name: notification-service
       service-dir: notification-service
       ecr-repository: notification-service
-      node-version: '22'
-      aws-region: us-east-1
+      node-version: "22"
+      aws-region: us-west-2
     secrets: inherit
 
   deploy-dev:
