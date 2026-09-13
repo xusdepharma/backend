@@ -6,16 +6,16 @@ name: CI/CD — manufacturing-service
 
 on:
   push:
-    branches: [develop, 'release/**']
+    branches: [develop, "release/**"]
     paths:
-      - 'manufacturing-service/**'
-      - '.github/workflows/ci-manufacturing-service.yml'
+      - "manufacturing-service/**"
+      - ".github/workflows/ci-manufacturing-service.yml"
   workflow_dispatch:
     inputs:
       ref:
-        description: 'Branch to build'
+        description: "Branch to build"
         required: false
-        default: 'develop'
+        default: "develop"
 
 permissions:
   id-token: write
@@ -24,12 +24,11 @@ permissions:
   actions: read
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: us-west-2
   ECR_REPOSITORY: manufacturing-service
   GITOPS_REPO: ${{ vars.GITOPS_REPO }}
 
 jobs:
-
   build:
     name: "Build & Security Gates (manufacturing-service)"
     uses: ./.github/workflows/_java-build.yml
@@ -37,7 +36,7 @@ jobs:
       service-name: manufacturing-service
       service-dir: manufacturing-service
       ecr-repository: manufacturing-service
-      aws-region: us-east-1
+      aws-region: us-west-2
       needs-database: true
     secrets: inherit
 
