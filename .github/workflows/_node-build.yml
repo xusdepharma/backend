@@ -34,12 +34,12 @@ on:
         description: "Node.js version to use"
         required: false
         type: string
-        default: '22'
+        default: "22"
       aws-region:
         description: "AWS region where ECR lives"
         required: false
         type: string
-        default: us-east-1
+        default: us-west-2
     outputs:
       image-tag:
         description: "Docker image tag pushed to ECR (format: sha-<7chars>)"
@@ -56,12 +56,12 @@ jobs:
     name: Build · SAST · Scan · Push · Sign (${{ inputs.service-name }})
     runs-on: ubuntu-latest
     permissions:
-      id-token: write        # OIDC — AWS + Cosign keyless
-      contents: read         # Checkout
+      id-token: write # OIDC — AWS + Cosign keyless
+      contents: read # Checkout
       actions: read
     outputs:
       image_tag: ${{ steps.meta.outputs.image_tag }}
-      registry:  ${{ steps.login-ecr.outputs.registry }}
+      registry: ${{ steps.login-ecr.outputs.registry }}
 
     steps:
       # ── Checkout ────────────────────────────────────────────────────────────
@@ -87,7 +87,6 @@ jobs:
       # ── Lint ──────────────────────────────────────────────────────────────────
       - name: ESLint (--max-warnings 0)
         run: cd ${{ inputs.service-dir }} && npx eslint src/ --ext .js,.ts --max-warnings 0
-
 
       - name: npm test (Jest + coverage gate ≥ 80%)
         run: cd ${{ inputs.service-dir }} && npm test -- --coverage --ci
@@ -115,7 +114,6 @@ jobs:
             -Dsonar.tests=src
             -Dsonar.test.inclusions=**/*.test.js
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-
 
       - name: npm audit (HIGH/CRITICAL → warn)
         run: cd ${{ inputs.service-dir }} && npm audit --audit-level=high
@@ -153,7 +151,7 @@ jobs:
           format: sarif
           output: trivy-results.sarif
           severity: HIGH,CRITICAL
-          exit-code: '0'
+          exit-code: "0"
           ignore-unfixed: true
 
       # ── Push image to ECR ─────────────────────────────────────────────────────

@@ -33,7 +33,7 @@ on:
         description: "AWS region where ECR lives"
         required: false
         type: string
-        default: us-east-1
+        default: us-west-2
       needs-database:
         description: "Start a PostgreSQL 15 container for integration tests"
         required: false
@@ -58,12 +58,12 @@ jobs:
     name: Build · SAST · Scan · Push · Sign (${{ inputs.service-name }})
     runs-on: ubuntu-latest
     permissions:
-      id-token: write        # OIDC — AWS + Cosign keyless
-      contents: read         # Checkout
+      id-token: write # OIDC — AWS + Cosign keyless
+      contents: read # Checkout
       actions: read
     outputs:
       image_tag: ${{ steps.meta.outputs.image_tag }}
-      registry:  ${{ steps.login-ecr.outputs.registry }}
+      registry: ${{ steps.login-ecr.outputs.registry }}
 
     steps:
       # ── Checkout ────────────────────────────────────────────────────────────
@@ -79,7 +79,7 @@ jobs:
       - name: Setup Java 17 (Temurin)
         uses: actions/setup-java@v5
         with:
-          java-version: '17'
+          java-version: "17"
           distribution: temurin
           cache: maven
 
@@ -100,7 +100,6 @@ jobs:
           done
           echo "PostgreSQL is ready."
 
-
       # ── Build & Test ─────────────────────────────────────────────────────────
       - name: "☕ Maven verify — compile, test, coverage (${{ inputs.service-name }})"
         run: |
@@ -108,7 +107,7 @@ jobs:
           cd ${{ inputs.service-dir }} && mvn verify --no-transfer-progress
           echo "::endgroup::"
         env:
-          SPRING_DATASOURCE_URL:      ${{ inputs.needs-database && 'jdbc:postgresql://localhost:5432/testdb' || '' }}
+          SPRING_DATASOURCE_URL: ${{ inputs.needs-database && 'jdbc:postgresql://localhost:5432/testdb' || '' }}
           SPRING_DATASOURCE_USERNAME: ${{ inputs.needs-database && 'testuser' || '' }}
           SPRING_DATASOURCE_PASSWORD: ${{ inputs.needs-database && 'testpass' || '' }}
 
@@ -132,7 +131,6 @@ jobs:
             -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_BACKEND }}
             -Dsonar.java.binaries=target/classes
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-
 
       - name: Cache OWASP NVD database
         if: false
@@ -171,7 +169,6 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/pharma-dev-github-actions-role
           aws-region: ${{ inputs.aws-region }}
 
-
       - name: "🔑 Login to Amazon ECR"
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
@@ -197,7 +194,7 @@ jobs:
           format: sarif
           output: trivy-results.sarif
           severity: HIGH,CRITICAL
-          exit-code: '0'
+          exit-code: "0"
           ignore-unfixed: true
 
       # ── Push & Sign ──────────────────────────────────────────────────────────
