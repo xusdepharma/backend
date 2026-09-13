@@ -12,16 +12,16 @@ name: CI/CD — api-gateway
 
 on:
   push:
-    branches: [develop, 'release/**']
+    branches: [develop, "release/**"]
     paths:
-      - 'api-gateway/**'
-      - '.github/workflows/ci-api-gateway.yml'
+      - "api-gateway/**"
+      - ".github/workflows/ci-api-gateway.yml"
   workflow_dispatch:
     inputs:
       ref:
-        description: 'Branch to build'
+        description: "Branch to build"
         required: false
-        default: 'develop'
+        default: "develop"
 
 permissions:
   id-token: write
@@ -30,12 +30,11 @@ permissions:
   actions: read
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: us-west-2
   ECR_REPOSITORY: api-gateway
   GITOPS_REPO: ${{ vars.GITOPS_REPO }}
 
 jobs:
-
   # ── 1. Build: Maven · SonarCloud · OWASP Dep · Trivy · ECR · Cosign ──
   build:
     name: "Build & Security Gates (api-gateway)"
@@ -44,7 +43,7 @@ jobs:
       service-name: api-gateway
       service-dir: api-gateway
       ecr-repository: api-gateway
-      aws-region: us-east-1
+      aws-region: us-west-2
       needs-database: false
     secrets: inherit
 

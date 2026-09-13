@@ -7,16 +7,16 @@ name: CI/CD — drug-catalog-service
 
 on:
   push:
-    branches: [develop, 'release/**']
+    branches: [develop, "release/**"]
     paths:
-      - 'drug-catalog-service/**'
-      - '.github/workflows/ci-drug-catalog.yml'
+      - "drug-catalog-service/**"
+      - ".github/workflows/ci-drug-catalog.yml"
   workflow_dispatch:
     inputs:
       ref:
-        description: 'Branch to build'
+        description: "Branch to build"
         required: false
-        default: 'develop'
+        default: "develop"
 
 permissions:
   id-token: write
@@ -25,13 +25,12 @@ permissions:
   actions: read
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: us-west-2
   ECR_REPOSITORY: drug-catalog-service
   GITOPS_REPO: ${{ vars.GITOPS_REPO }}
   GITOPS_SERVICE_NAME: catalog-service
 
 jobs:
-
   build:
     name: "Build & Security Gates (drug-catalog)"
     uses: ./.github/workflows/_java-build.yml
@@ -39,7 +38,7 @@ jobs:
       service-name: drug-catalog-service
       service-dir: drug-catalog-service
       ecr-repository: drug-catalog-service
-      aws-region: us-east-1
+      aws-region: us-west-2
       needs-database: true
     secrets: inherit
 

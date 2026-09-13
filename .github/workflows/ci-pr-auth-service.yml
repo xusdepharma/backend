@@ -2,14 +2,14 @@ name: PR Check — auth-service
 
 on:
   push:
-    branches: ['feat-*', 'fix-*', 'chore-*']
+    branches: ["feat-*", "fix-*", "chore-*"]
     paths:
-      - 'auth-service/**'
-      - '.github/workflows/ci-pr-auth-service.yml'
+      - "auth-service/**"
+      - ".github/workflows/ci-pr-auth-service.yml"
   pull_request:
     branches: [develop]
     paths:
-      - 'auth-service/**'
+      - "auth-service/**"
 
 permissions:
   contents: read
