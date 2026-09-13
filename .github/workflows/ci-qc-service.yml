@@ -21,7 +21,7 @@ permissions:
   actions: read
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: us-west-2
   ECR_REPOSITORY: qc-service
   GITOPS_REPO: ${{ vars.GITOPS_REPO }}
 
@@ -34,7 +34,7 @@ jobs:
       service-name: qc-service
       service-dir: qc-service
       ecr-repository: qc-service
-      aws-region: us-east-1
+      aws-region: us-west-2
       needs-database: false
     secrets: inherit
 

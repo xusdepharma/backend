@@ -24,7 +24,7 @@ permissions:
   actions: read
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: us-west-2
   ECR_REPOSITORY: supplier-service
   GITOPS_REPO: ${{ vars.GITOPS_REPO }}
 
@@ -37,7 +37,7 @@ jobs:
       service-name: supplier-service
       service-dir: supplier-service
       ecr-repository: supplier-service
-      aws-region: us-east-1
+      aws-region: us-west-2
       needs-database: true
     secrets: inherit
 
